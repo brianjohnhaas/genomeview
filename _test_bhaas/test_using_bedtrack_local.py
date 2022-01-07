@@ -6,12 +6,11 @@ sys.path.insert(0, "/Users/bhaas/GITHUB/genomeview.bhaas")
 import genomeview.genomeview
 import genomeview.axis
 
-
 #from genomeview.genomeview import *
 #from genomeview.axis import *
 #from genomeview.track import *
 #from genomeview.bamtrack import *
-#from genomeview.bedtrack import BEDTrack
+from genomeview.bedtrack import BEDTrack
 #from genomeview.graphtrack import *
 from genomeview.intervaltrack import *
 from genomeview.genomesource import *
@@ -85,26 +84,40 @@ def main():
     width=900
     doc = genomeview.Document(width)
 
-    reference_path="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.fa.gz"
+    reference_path="/Users/bhaas/DB/CTAT_GENOME_LIB/GRCh38_gencode_v22_CTAT_lib_Oct012019.plug-n-play/ctat_genome_lib_build_dir/ref_genome.fa"
     source = FastaGenomeSource(reference_path)
 
+    """
     chrom="chr1"
     start=100
     end=1000
+    """
 
+    chrom="chr8"
+    start=127000000
+    end=129000000
+    
     view = genomeview.GenomeView(chrom, start, end, "+", source)
     doc.add_view(view)
 
 
+    """
     mytrack = MyTrack()
     view.add_track(mytrack)
+    """
     
     axis_track = genomeview.Axis("axis")
     view.add_track(axis_track)
 
     
+    bed_file = "/Users/bhaas/DB/CTAT_GENOME_LIB/GRCh38_gencode_v22_CTAT_lib_Oct012019.plug-n-play/ctat_genome_lib_build_dir/ref_annot.bed"
+    bed_track = genomeview.BEDTrack(bed_file, name="GRCh38-gencode_v22")
+    bed_track.draw_locus_labels = False
+    
+    view.add_track(bed_track)
 
-    genomeview.save(doc, "example2.svg")
+    
+    genomeview.save(doc, "example3.svg")
 
 if __name__=='__main__':
     main()
